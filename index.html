@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+
+  <!-- 💅 CSS Styling -->
+  <style>
+    body
+    
+    {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #e9eff1;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      height: 50px;
+      font-size: 20px;
+      margin-bottom: 15px;
+      border: none;
+      outline: none;
+      background-color: #f3f3f3;
+      text-align: right;
+      padding-right: 10px;
+      border-radius: 8px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      font-size: 20px;
+      margin: 6px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00aaff;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #007acc;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    /* Orange buttons for operations */
+    .operator {
+      background-color: #ff9500;
+    }
+
+    .operator:hover {
+      background-color: #e68900;
+    }
+
+    /* Clear button style */
+    .clear {
+      background-color: #ff3b30;
+    }
+
+    .clear:hover {
+      background-color: #d63027;
+    }
+  </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Enock's Calculator</h1>
+  <div class="calculator">
+    <input type="text" id="result" disabled>
+
+    <br>
+    <button onclick="appendNumber('1')">1</button>
+    <button onclick="appendNumber('2')">2</button>
+    <button onclick="appendNumber('3')">3</button>
+    <button class="operator" onclick="setOperation('+')">+</button>
+    <br>
+    <button onclick="appendNumber('4')">4</button>
+    <button onclick="appendNumber('5')">5</button>
+    <button onclick="appendNumber('6')">6</button>
+    <button class="operator" onclick="setOperation('-')">-</button>
+    <br>
+    <button onclick="appendNumber('7')">7</button>
+    <button onclick="appendNumber('8')">8</button>
+    <button onclick="appendNumber('9')">9</button>
+    <button class="operator" onclick="setOperation('*')">*</button>
+    <br>
+    <button onclick="appendNumber('0')">0</button>
+    <button class="clear" onclick="clearResult()">C</button>
+    <button onclick="calculateResult()">=</button>
+    <button class="operator" onclick="setOperation('/')">/</button>
+  </div>
+
+  <!-- ⚙️ JavaScript (Functionality) -->
+  <script>
+    let currentInput = '';
+    let operator = '';
+    let previousInput = '';
+
+    function appendNumber(number) {
+      currentInput += number;
+      document.getElementById('result').value = currentInput;
+    }
+
+    function setOperation(op) {
+      if (currentInput === '') return;
+      if (previousInput !== '') calculateResult();
+      operator = op;
+      previousInput = currentInput;
+      currentInput = '';
+    }
+
+    function calculateResult() {
+      if (previousInput === '' || currentInput === '') return;
+      let result;
+      const prev = parseFloat(previousInput);
+      const curr = parseFloat(currentInput);
+      switch (operator) {
+        case '+': result = prev + curr; break;
+        case '-': result = prev - curr; break;
+        case '*': result = prev * curr; break;
+        case '/': 
+          result = curr === 0 ? 'Error' : prev / curr; 
+          break;
+      }
+      document.getElementById('result').value = result;
+      currentInput = result.toString();
+      previousInput = '';
+      operator = '';
+    }
+
+    function clearResult() {
+      currentInput = '';
+      previousInput = '';
+      operator = '';
+      document.getElementById('result').value = '';
+    }
+  </script>
+</body>
+</html>
+
